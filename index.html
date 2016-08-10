@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="climbingTrivia">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Climbing Trivia</title>
+    <!-- Bootstrap css and my own css -->
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container">
+      <div class="page-header">
+        <h1>Climbing Trivia</h1>
+        <h3>
+            Pick a category to brush up on and then try out a quiz.
+        </h3>
+      </div>
+
+        <!-- Tells angular which file is in control of this code -->
+      <div ng-controller="listCtrl as list" ng-hide="list.quizResults.quizActive">
+        <form class="form-inline well well-sm clearfix">
+          <span class="glyphicon glyphicon-search"></span>
+          <input
+            type="text"
+            placeholder="Search"
+            class="form-control"
+            ng-model="list.search">
+            <button class="btn btn-warning pull-right"
+              ng-click="list.activateQuiz()">Start Quiz</button>
+        </form>
+          <div class="row">
+            <div class="col-sm-6" ng-repeat="item in list.data | filter:list.search">
+              <div class="well well-sm">
+                <div class="row">
+                  <div class="col-md-5">
+                    <img ng-src="{{item.image_url}}" class="img-rounded img-responsive standard-image" />
+                  </div>
+                  <div class="col-md-6">
+                    <h4>{{item.category}}</h4>
+                    <button class="btn btn-warning pull-right" data-toggle="modal"
+                    data-target="#item-info"
+                    ng-click="list.changeActiveCategory(item)"
+                    >View Info</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal" id="item-info">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h2>{{list.activeCategory.category}}</h2>
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-xs-8 col-xs-offset-2">
+                        <img ng-src="{{list.activeCategory.image_url}}" class="img-rounded img-responsive " />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <br>
+                      <div class="col-md-8 col-md-offset-2">
+                        <p>{{list.activeCategory.summary}}</p>
+                      </div>
+                      <div class="col-xs-12">
+                        <button class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </div> <!-- End of List Controller -->
+
+      <div ng-controller="quizCtrl as quiz" ng-show="quiz.quizResults.quizActive">
+        <h1>Quiz is Active</h1>
+        <div class="row">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- third party js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- Our application scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers/list.js"></script>
+    <script src="js/controllers/quiz.js"></script>
+    <script src="js/factories/quizResults.js"></script>
+    <script src="js/factories/dataService.js"></script>
+
+
+
+</body>
+</html>
